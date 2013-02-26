@@ -1,0 +1,27 @@
+<html>
+
+<body>
+
+<table border="0" >
+
+<tr>
+<th width=100>0*</th>
+<th width=120><input name="PNG_1" type="checkbox" checked /></th>
+<th width=70 ><input name="HON_1" maxlength="5" size="3" value="08:00"/></th>
+<th width=70 ><input name="HOF_1" maxlength="5" size="3" value="19:00"/></th>
+<th width=100 >   %! prt0-st
+</th>
+<th width=200> &nbsp; &nbsp; &nbsp;
+<INPUT TYPE="button" value=' ! ' onClick="window.open('p0_sw.shtml','FX'); window.open('p0.shtml','P0')" 
+/> &nbsp;
+<INPUT TYPE="button" value=' 0 ' onClick="window.open('p0_of.shtml','FX'); window.open('p0.shtml','P0')" %! prt0-s0
+/> &nbsp;
+<INPUT TYPE="button" value=' 1 ' onClick="window.open('p0_on.shtml','FX'); window.open('p0.shtml','P0')" %! prt0-s1
+/> &nbsp;
+</th>
+</tr>
+
+</table>
+
+</body>
+</html>

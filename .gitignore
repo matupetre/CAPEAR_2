@@ -1,0 +1,16 @@
+.[Mm]etadata/*
+CMSISv2p00_LPC17xx/Debug/*
+RDB1768cmsis2_uIP/Debug/*
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
