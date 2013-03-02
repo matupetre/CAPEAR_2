@@ -111,19 +111,28 @@ HTTPD_CGI_CALL(prt4st, "prt4-st", prt4_st);	//by CAPEAR
 HTTPD_CGI_CALL(prt4s1, "prt4-s1", prt4_s1);	//by CAPEAR
 HTTPD_CGI_CALL(prt4s0, "prt4-s0", prt4_s0);	//by CAPEAR
 
-/*
+//mapa de puertos (abandonada)
+//HTTPD_CGI_CALL(prtmap, "prt-map", prt_map);	//by CAPEAR
+
+
+
+/* by CAPEAR antes
 HTTPD_CGI_CALL(portof, "port-of", port_of);		//by CAPEAR
 HTTPD_CGI_CALL(porton, "port-on", prt0_on);		//by CAPEAR
 HTTPD_CGI_CALL(portston, "port-st-on", port_st_on);	//by CAPEAR
 HTTPD_CGI_CALL(portstof, "port-st-of", port_st_of);	//by CAPEAR
+
+static const struct httpd_cgi_call *calls[] = { &file, &tcp, &net, &port, &toggle, NULL };
 */
-//by CAPEAR ANTES: static const struct httpd_cgi_call *calls[] = { &file, &tcp, &net, &port, &toggle, NULL };
+
 
 //Listado de funciones
-static const struct httpd_cgi_call *calls[] = { &prt0sw, &prt0on, &prt0of, &prt0st, &prt0s1, &prt0s0, &prt1sw, &prt1on, &prt1of, &prt1st, &prt1s1, &prt1s0, \
+static const struct httpd_cgi_call *calls[] = { &prt0sw, &prt0on, &prt0of, &prt0st, &prt0s1, &prt0s0, \
+						&prt1sw, &prt1on, &prt1of, &prt1st, &prt1s1, &prt1s0, \
 						&prt2sw, &prt2on, &prt2of, &prt2st, &prt2s1, &prt2s0, \
 						&prt3sw, &prt3on, &prt3of, &prt3st, &prt3s1, &prt3s0, \
 						&prt4sw, &prt4on, &prt4of, &prt4st, &prt4s1, &prt4s0, \
+					/*	&prtmap, \ 	//funcion abandonada */
 						NULL };
 
 /*---------------------------------------------------------------------------*/
@@ -160,8 +169,8 @@ static
 PT_THREAD(prt0_sw(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN ^= (1 << PRT0_pin);
+  PRT0_PIO->FIOMASK = 0;
+  PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -170,8 +179,8 @@ static
 PT_THREAD(prt1_sw(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN ^= (1 << PRT1_pin);
+  PRT0_PIO->FIOMASK = 0;
+  PRT0_PIO->FIOPIN ^= (1 << PRT1_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -180,8 +189,8 @@ static
 PT_THREAD(prt2_sw(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN ^= (1 << PRT2_pin);
+  PRT2_PIO->FIOMASK = 0;
+  PRT2_PIO->FIOPIN ^= (1 << PRT2_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -190,8 +199,8 @@ static
 PT_THREAD(prt3_sw(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN ^= (1 << PRT3_pin);
+  PRT3_PIO->FIOMASK = 0;
+  PRT3_PIO->FIOPIN ^= (1 << PRT3_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -200,8 +209,8 @@ static
 PT_THREAD(prt4_sw(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN ^= (1 << PRT4_pin);
+  PRT4_PIO->FIOMASK = 0;
+  PRT4_PIO->FIOPIN ^= (1 << PRT4_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -212,8 +221,8 @@ static
 PT_THREAD(prt0_on(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (1 << PRT0_pin);
+  PRT0_PIO->FIOMASK = 0;
+  PRT0_PIO->FIOPIN = (1 << PRT0_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -222,8 +231,8 @@ static
 PT_THREAD(prt1_on(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (1 << PRT1_pin);
+  PRT1_PIO->FIOMASK = 0;
+  PRT1_PIO->FIOPIN = (1 << PRT1_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -232,8 +241,8 @@ static
 PT_THREAD(prt2_on(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (1 << PRT2_pin);
+  PRT2_PIO->FIOMASK = 0;
+  PRT2_PIO->FIOPIN = (1 << PRT2_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -242,8 +251,8 @@ static
 PT_THREAD(prt3_on(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (1 << PRT3_pin);
+  PRT3_PIO->FIOMASK = 0;
+  PRT3_PIO->FIOPIN = (1 << PRT3_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -253,8 +262,8 @@ static
 PT_THREAD(prt4_on(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (1 << PRT4_pin);
+  PRT4_PIO->FIOMASK = 0;
+  PRT4_PIO->FIOPIN = (1 << PRT4_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -264,8 +273,8 @@ static
 PT_THREAD(prt0_of(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (0 << PRT0_pin);
+  PRT0_PIO->FIOMASK = 0;
+  PRT0_PIO->FIOPIN = (0 << PRT0_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -274,8 +283,8 @@ static
 PT_THREAD(prt1_of(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (0 << PRT1_pin);
+  PRT1_PIO->FIOMASK = 0;
+  PRT1_PIO->FIOPIN = (0 << PRT1_pin);
   PSOCK_END(&s->sout);
 }
 /*---------------------------------------------------------------------------*/
@@ -283,8 +292,8 @@ static
 PT_THREAD(prt2_of(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (0 << PRT2_pin);
+  PRT2_PIO->FIOMASK = 0;
+  PRT2_PIO->FIOPIN = (0 << PRT2_pin);
   PSOCK_END(&s->sout);
 }
 /*---------------------------------------------------------------------------*/
@@ -292,8 +301,8 @@ static
 PT_THREAD(prt3_of(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (0 << PRT3_pin);
+  PRT3_PIO->FIOMASK = 0;
+  PRT3_PIO->FIOPIN = (0 << PRT3_pin);
   PSOCK_END(&s->sout);
 }
 /*---------------------------------------------------------------------------*/
@@ -301,8 +310,8 @@ static
 PT_THREAD(prt4_of(struct httpd_state *s, char *ptr))
 {
   PSOCK_BEGIN(&s->sout);
-  GPIO_ALL->FIOMASK = 0;
-  GPIO_ALL->FIOPIN = (0 << PRT4_pin);
+  PRT4_PIO->FIOMASK = 0;
+  PRT4_PIO->FIOPIN = (0 << PRT4_pin);
   PSOCK_END(&s->sout);
 }
 
@@ -313,8 +322,8 @@ generate_prt0_st(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt0_st;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt0_st = !!(GPIO_ALL->FIOPIN & (1 << PRT0_pin));
+	PRT0_PIO->FIOMASK = 0;
+	prt0_st = !!(PRT0_PIO->FIOPIN & (1 << PRT0_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt0_st ? "1":"0"));
 }
@@ -334,8 +343,8 @@ generate_prt1_st(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt1_st;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt1_st = !!(GPIO_ALL->FIOPIN & (1 << PRT1_pin));
+	PRT1_PIO->FIOMASK = 0;
+	prt1_st = !!(PRT1_PIO->FIOPIN & (1 << PRT1_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt1_st ? "1":"0"));
 }
@@ -355,8 +364,8 @@ generate_prt2_st(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt2_st;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt2_st = !!(GPIO_ALL->FIOPIN & (1 << PRT2_pin));
+	PRT2_PIO->FIOMASK = 0;
+	prt2_st = !!(PRT2_PIO->FIOPIN & (1 << PRT2_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt2_st ? "1":"0"));
 }
@@ -376,8 +385,8 @@ generate_prt3_st(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt3_st;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt3_st = !!(GPIO_ALL->FIOPIN & (1 << PRT3_pin));
+	PRT3_PIO->FIOMASK = 0;
+	prt3_st = !!(PRT3_PIO->FIOPIN & (1 << PRT3_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt3_st ? "1":"0"));
 }
@@ -397,8 +406,8 @@ generate_prt4_st(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt4_st;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt4_st = !!(GPIO_ALL->FIOPIN & (1 << PRT4_pin));
+	PRT4_PIO->FIOMASK = 0;
+	prt4_st = !!(PRT4_PIO->FIOPIN & (1 << PRT4_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt4_st ? "1":"0"));
 }
@@ -420,8 +429,8 @@ generate_prt0_s1(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt0_s1;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt0_s1 = !!(GPIO_ALL->FIOPIN & (1 << PRT0_pin));
+	PRT0_PIO->FIOMASK = 0;
+	prt0_s1 = !!(PRT0_PIO->FIOPIN & (1 << PRT0_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt0_s1 ? "disabled":""));
 }
@@ -441,8 +450,8 @@ generate_prt1_s1(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt1_s1;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt1_s1 = !!(GPIO_ALL->FIOPIN & (1 << PRT1_pin));
+	PRT1_PIO->FIOMASK = 0;
+	prt1_s1 = !!(PRT1_PIO->FIOPIN & (1 << PRT1_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt1_s1 ? "disabled":""));
 }
@@ -461,8 +470,8 @@ generate_prt2_s1(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt2_s1;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt2_s1 = !!(GPIO_ALL->FIOPIN & (1 << PRT2_pin));
+	PRT2_PIO->FIOMASK = 0;
+	prt2_s1 = !!(PRT2_PIO->FIOPIN & (1 << PRT2_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt2_s1 ? "disabled":""));
 }
@@ -481,8 +490,8 @@ generate_prt3_s1(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt3_s1;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt3_s1 = !!(GPIO_ALL->FIOPIN & (1 << PRT3_pin));
+	PRT3_PIO->FIOMASK = 0;
+	prt3_s1 = !!(PRT3_PIO->FIOPIN & (1 << PRT3_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt3_s1 ? "disabled":""));
 }
@@ -501,8 +510,8 @@ generate_prt4_s1(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt4_s1;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt4_s1 = !!(GPIO_ALL->FIOPIN & (1 << PRT4_pin));
+	PRT4_PIO->FIOMASK = 0;
+	prt4_s1 = !!(PRT4_PIO->FIOPIN & (1 << PRT4_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt4_s1 ? "disabled":""));
 }
@@ -524,8 +533,8 @@ generate_prt0_s0(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt0_s0;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt0_s0 = !!(GPIO_ALL->FIOPIN & (1 << PRT0_pin));
+	PRT0_PIO->FIOMASK = 0;
+	prt0_s0 = !!(PRT0_PIO->FIOPIN & (1 << PRT0_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt0_s0 ? "":"disabled"));
 }
@@ -545,8 +554,8 @@ generate_prt1_s0(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt1_s0;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt1_s0 = !!(GPIO_ALL->FIOPIN & (1 << PRT1_pin));
+	PRT1_PIO->FIOMASK = 0;
+	prt1_s0 = !!(PRT1_PIO->FIOPIN & (1 << PRT1_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt1_s0 ? "":"disabled"));
 }
@@ -565,8 +574,8 @@ generate_prt2_s0(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt2_s0;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt2_s0 = !!(GPIO_ALL->FIOPIN & (1 << PRT2_pin));
+	PRT2_PIO->FIOMASK = 0;
+	prt2_s0 = !!(PRT2_PIO->FIOPIN & (1 << PRT2_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt2_s0 ? "":"disabled"));
 }
@@ -585,8 +594,8 @@ generate_prt3_s0(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt3_s0;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt3_s0 = !!(GPIO_ALL->FIOPIN & (1 << PRT3_pin));
+	PRT3_PIO->FIOMASK = 0;
+	prt3_s0 = !!(PRT3_PIO->FIOPIN & (1 << PRT3_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt3_s0 ? "":"disabled"));
 }
@@ -605,8 +614,8 @@ generate_prt4_s0(void *arg)		//esta función ayuda a la que debe obtener el esta
 {
 	unsigned int prt4_s0;
 
-	GPIO_ALL->FIOMASK = 0;
-	prt4_s0 = !!(GPIO_ALL->FIOPIN & (1 << PRT4_pin));
+	PRT4_PIO->FIOMASK = 0;
+	prt4_s0 = !!(PRT4_PIO->FIOPIN & (1 << PRT4_pin));
 	return snprintf((char *)uip_appdata, UIP_APPDATA_SIZE,
 			"%s ",  (prt4_s0 ? "":"disabled"));
 }
@@ -620,6 +629,49 @@ PT_THREAD(prt4_s0(struct httpd_state *s, char *ptr))
   PSOCK_END(&s->sout);
 }
 
+
+/*---------------------------------------------------------------------------*/
+
+//función abandonada
+/*
+static unsigned short
+generate_prt_map(void *arg)		//esta función muestra el mapeo de los puertos
+{
+	char *P0G,*P1G,*P2G,*P3G,*P4G;
+	char *P0P,*P1P,*P2P,*P3P,*P4P;
+
+	P0G=(char*) PRT0_PIO;
+	P1G=(char*) PRT1_PIO;
+	P2G=(char*) PRT2_PIO;
+	P3G=(char*) PRT3_PIO;
+	P4G=(char*) PRT4_PIO;
+
+	return snprintf((char *) uip_appdata, UIP_APPDATA_SIZE, " \
+%s \
+%s %s %s %s %s \
+%s %s %s %s %s \
+%s %s %s %s %s \
+%s %s %s %s %s \
+%s %s %s %s %s \
+%s",
+"<br />",
+"Puerto 0: GPIO_",P0G,"_",(char*) PRT0_pin,"<br />",
+"Puerto 1: GPIO_",P1G,"_",(char*) PRT1_pin,"<br />",
+"Puerto 2: GPIO_",P2G,"_",(char*) PRT2_pin,"<br />",
+"Puerto 3: GPIO_",P3G,"_",(char*) PRT3_pin,"<br />",
+"Puerto 4: GPIO_",P4G,"_",(char*) PRT4_pin,"<br />",
+"");
+}
+
+static
+PT_THREAD(prt_map(struct httpd_state *s, char *ptr))
+{
+
+  PSOCK_BEGIN(&s->sout);
+  PSOCK_GENERATOR_SEND(&s->sout, generate_prt_map, s);
+  PSOCK_END(&s->sout);
+}
+*/
 
 /*---------------------------------------------------------------------------*/
 /** @} */

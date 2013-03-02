@@ -79,7 +79,13 @@ int main(void)
 	*/
 
 	//LPC_PINCON->PINSEL1    &= (~(3 << 12));
-	LPC_GPIO0->FIODIR |= (PRT0_BIT+PRT1_BIT+PRT2_BIT+PRT3_BIT+PRT4_BIT); //pines definidos como "salida digital"
+	//LPC_GPIO0->FIODIR |= (PRT0_BIT+PRT1_BIT+PRT2_BIT+PRT3_BIT+PRT4_BIT); //pines definidos como "salida digital"
+	PRT0_PIO->FIODIR |= PRT0_BIT;	//pin corresp.al puerto 0 definido como salida digital
+	PRT1_PIO->FIODIR |= PRT1_BIT;	//pin corresp.al puerto 1 definido como salida digital
+	PRT2_PIO->FIODIR |= PRT2_BIT;	//pin corresp.al puerto 2 definido como salida digital
+	PRT3_PIO->FIODIR |= PRT3_BIT;	//pin corresp.al puerto 3 definido como salida digital
+	PRT4_PIO->FIODIR |= PRT4_BIT;	//pin corresp.al puerto 4 definido como salida digital
+
 	//LPC_GPIO0->FIOCLR = LED_BIT; //turn off the LED
 	//LPC_GPIO0->FIOSET = LED_BIT; //turn off the LED
 
