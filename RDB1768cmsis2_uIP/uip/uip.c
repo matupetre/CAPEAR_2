@@ -78,10 +78,12 @@
  * checksums, and fill in the necessary header fields and finally send
  * the packet back to the peer.
 */
-// by CAPEAR:
+
+// by CAPEAR==========================================
 #include "capear_definiciones.h"	//by CAPEAR (para referirme a los puertos propios)
 #include "LPC17xx.h"				//by CAPEAR (para referirme al LPC_GPIO0)
 extern int pong_flag;				//by CAPEAR (variable superglobal)
+//by CAPEAR***********END*****************************
 
 #include "uip.h"
 #include "uipopt.h"
@@ -1017,7 +1019,6 @@ uip_process(u8_t flag)
   }
 
 
-
 #if UIP_PINGADDRCONF
  icmp_input:
 #endif /* UIP_PINGADDRCONF */
@@ -1026,16 +1027,16 @@ uip_process(u8_t flag)
 //by CAPEAR:  aqui contemplo una respuesta a mi PING emitido
   if(ICMPBUF->type == ICMP_ECHO_REPLY) {
 	UIP_LOG("icmp respuesta a CAPEAR.");
-
 	/* Para comenzar se baja la bandera en señal de que
-	 * llegó una respuesta a nuestro ping emitido
-	 */
+	 * llegó una respuesta a nuestro ping emitido */
 	pong_flag = 0;
-	//se togglea el puerto 0 (LED2 por ahora) para indicar que
-	//se recibio una respuesta a nuestro PING enviado.
+	//señal visual: se apaga el LED2 (representacion visual de bajar la bandera)
 	PRT0_PIO->FIOMASK = 0;
-	PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);	//LED2_TOGGLE
-    //PRT0_PIO->FIOPIN0 = (0 << PRT0_pin);	//APAGO
+	//PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);	//LED2_TOGGLE
+    PRT0_PIO->FIOPIN = (0 << PRT0_pin);	//APAGO
+    /* me voy al carajo, porque si nos respondieron el PING request
+     * significa que está todo bien y que no tengo que hacer nada más
+     */
 	goto drop;
   }
 //by CAPEAR:  ******END*****

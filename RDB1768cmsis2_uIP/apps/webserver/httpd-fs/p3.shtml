@@ -6,7 +6,7 @@
 
 <tr>
 <th width=100>3</th>
-<th width=120><input name="PNG_1" type="checkbox" checked /></th>
+<th width=120><input name="PNG_1" type="checkbox" disabled /></th>
 <th width=70 ><input name="HON_1" maxlength="5" size="3" value="08:00"/></th>
 <th width=70 ><input name="HOF_1" maxlength="5" size="3" value="19:00"/></th>
 <th width=100 >   %! prt3-st

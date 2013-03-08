@@ -50,8 +50,8 @@
 // by CAPEAR:
 #include "capear_definiciones.h"
 #include "capear_funciones.c"
-//#define ICMPBUF ((struct uip_icmpip_hdr *)&uip_buf[UIP_LLH_LEN])
-extern int pong_flag;	//by CAPEAR
+extern int pong_flag=0;	//by CAPEAR
+extern int pong_enable=0;	//by CAPEAR
 //by CAPEAR*********END*********************
 
 #define BUF ((struct uip_eth_hdr *)&uip_buf[0])
@@ -106,7 +106,7 @@ int main(void)
 	*/
 
 	struct timer periodic_timer, arp_timer;
-	struct timer ping_emitido_timer, el_led_dura_timer;
+	struct timer ping_emitido_timer, el_led_dura_timer, desconexion_timer;
 
 	//Si se utiliza CMSIS la rutina SystemInit() es llamada en el codigo de inicio
 	//(cr_startup_lpc176x.c), caso contrario se la llama aqui
@@ -121,15 +121,15 @@ int main(void)
 	 * el 1ro para esperar un packete y...
 	 * el 2do para emitir un ARP	 */
 
-//	timer_set(&periodic_timer, CLOCK_SECOND / 2); 	/* 0.5s */
-	timer_set(&periodic_timer, CLOCK_SECOND * 10);	//by CAPEAR, very largo!! usado para debuggeo chei
+	timer_set(&periodic_timer, CLOCK_SECOND / 2); 	/* 0.5s */
+//	timer_set(&periodic_timer, CLOCK_SECOND * 10);	//by CAPEAR, very largo!! usado para debuggeo chei
 
 	timer_set(&arp_timer, CLOCK_SECOND * 10);		/* 10s */
 //	timer_set(&arp_timer, CLOCK_SECOND * 240);		//by CAPEAR: 60s *solo xa Debug!*
 
 	timer_set(&ping_emitido_timer, CLOCK_SECOND * 4);	//by CAPEAR: cada cuanto se emitirá mi ping propio /* 5s */
+	timer_set(&desconexion_timer, CLOCK_SECOND * 2);	//by CAPEAR: seteo el retardo para resetear un puerto caído (2 seg)
 
-	
 	//ethernet init
 
 	tapdev_init();  //esto inicia la interfaz Ethernet pero NO el webserver.
@@ -287,35 +287,46 @@ int main(void)
     		}
 
     	//by CAPEAR: aqui meto mi timer y mi ping-emisor (lo llamo pong)
-		if(timer_expired(&ping_emitido_timer))
-			{
+		if(timer_expired(&ping_emitido_timer)) {
+
 			timer_reset(&ping_emitido_timer);
 
 			//uip_ip_addr_t pong_ip;	//defino variable para contener la IP en formato de uIP
 			//uip_ipaddr(pong_ip,IP1,IP2,IP3,IP4); //establezco la IP en formato uIP
 
-			//meter el PING emisor aqui
-			pong("192.168.0.3");	//emite un ping echo request
-									//la detección del echo reply se incorporo en uip.c
+			if (pong_enable==1) {
+				//meter el PING emisor aqui
+				pong("192.168.0.3");	//emite un ping echo request
+				//la detección del echo reply se incorporo en uip.c
 
-			//envío efectivo del packete
-			if(uip_len > 0)
-				{
-				uip_arp_out();
-				tapdev_send(uip_buf,uip_len);	//emisión efectiva
-				pong_flag += 1;	//suma 1 a la bandera: se emitió un ping
-				if (pong_flag==3) {
-				//apaga_espera_enciende();
-				}
+				//envío efectivo del packete
+				if(uip_len > 0) {
+					uip_arp_out();
+					tapdev_send(uip_buf,uip_len);	//emisión efectiva
+					/* Señal visual: si envié un PING enciendo el LED2 */
+					PRT0_PIO->FIOMASK = 0;
+					PRT0_PIO->FIOPIN = (1 << PRT0_pin);	//ENCIENDO LED
+					/* Levanto (y sumo 1) a la bandera */
+					pong_flag += 1;	//suma 1 a la bandera: se emitió un ping
+					if (pong_flag==3) {
+						//bajo la bandera para evitar entradas infinitas a este sitio
+						pong_flag=0;
 
-				/*
-				PRT0_PIO->FIOMASK = 0;
-				PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);	//LED2 SWAP
-			    PRT0_PIO->FIOPIN0 = (1 << PRT0_pin);	//ENCIENDO
-				for(i=1000000;i==0;--i);	//retardo para que haya tiempo de ver el led
-				*/
+						//APAGO PUERTO
+						PRT4_PIO->FIOMASK = 0;
+						PRT4_PIO->FIOPIN = (0 << PRT4_pin);
+
+						//Genero delay de 2 segundos
+						timer_reset(&desconexion_timer); 	//no funciona
+						while(!timer_expired(&desconexion_timer)) {;}
+
+						//ENCIENDO PUERTO
+						PRT4_PIO->FIOMASK = 0;
+						PRT4_PIO->FIOPIN = (1 << PRT4_pin);
+					}
 				}
 			}
+		}
 
     	//by CAPEAR:***************END******************
 

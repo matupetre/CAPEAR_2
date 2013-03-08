@@ -52,7 +52,7 @@
 #define PRT3_BIT (1<<PRT3_pin) // Valor absoluto de la palabra si solo cuenta el pin de este puerto
 #define PRT4_BIT (1<<PRT4_pin) // Valor absoluto de la palabra si solo cuenta el pin de este puerto
 
-int pong_flag;
-;
+int pong_flag, pong_enable;
+
 //u16_t uip_ICMPchksum(u16_t tamano_total_datagrama);		//by CAPEAR
 void pong(char* destipaddr);

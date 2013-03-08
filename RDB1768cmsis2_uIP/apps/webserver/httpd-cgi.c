@@ -110,6 +110,7 @@ HTTPD_CGI_CALL(prt4of, "prt4-of", prt4_of);	//by CAPEAR
 HTTPD_CGI_CALL(prt4st, "prt4-st", prt4_st);	//by CAPEAR
 HTTPD_CGI_CALL(prt4s1, "prt4-s1", prt4_s1);	//by CAPEAR
 HTTPD_CGI_CALL(prt4s0, "prt4-s0", prt4_s0);	//by CAPEAR
+HTTPD_CGI_CALL(prt4pg, "prt4-pg", prt4_pg);	//by CAPEAR ***NUEVA***
 
 //mapa de puertos (abandonada)
 //HTTPD_CGI_CALL(prtmap, "prt-map", prt_map);	//by CAPEAR
@@ -131,7 +132,7 @@ static const struct httpd_cgi_call *calls[] = { &prt0sw, &prt0on, &prt0of, &prt0
 						&prt1sw, &prt1on, &prt1of, &prt1st, &prt1s1, &prt1s0, \
 						&prt2sw, &prt2on, &prt2of, &prt2st, &prt2s1, &prt2s0, \
 						&prt3sw, &prt3on, &prt3of, &prt3st, &prt3s1, &prt3s0, \
-						&prt4sw, &prt4on, &prt4of, &prt4st, &prt4s1, &prt4s0, \
+						&prt4sw, &prt4on, &prt4of, &prt4st, &prt4s1, &prt4s0, &prt4pg, \
 					/*	&prtmap, \ 	//funcion abandonada */
 						NULL };
 
@@ -629,6 +630,15 @@ PT_THREAD(prt4_s0(struct httpd_state *s, char *ptr))
   PSOCK_END(&s->sout);
 }
 
+/*---------------------------------------------------------------------------*/
+extern int pong_enable;
+
+static
+PT_THREAD(prt4_pg(struct httpd_state *s, char *ptr))	//togglea una variable superglobal
+{
+  if (pong_enable==0)		{pong_enable=1;}
+  else if (pong_enable==1)	{pong_enable=0;}
+ }
 
 /*---------------------------------------------------------------------------*/
 
