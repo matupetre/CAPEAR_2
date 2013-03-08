@@ -1,0 +1,16 @@
+Para generar un filtro personalizado:
+	en la ventanita bajo la barra de botones dice Filter:____________________ Expression...
+	cliquear en "Expression..."
+
+Filtro para ignorar los ARPs al def.gateway:
+	!( arp.dst.proto_ipv4 == 192.168.0.100)
+
+Filtro para ignorar lo anterior y salidas del bucle invertido:
+	!(( arp.dst.proto_ipv4 == 192.168.0.100) || (ip.src == 192.168.0.33))
+
+
+Filtro para ignorar packetes "BROWSER"
+	!((ip.dst == 192.168.0.255) && (eth.type!=ARP))
+
+El filtro perfecto: ignora packetes BROWSER & ARPs al default gateway
+	!((ip.dst == 192.168.0.255) && (eth.type!=ARP)) && !(arp.dst.proto_ipv4 == 192.168.0.100)

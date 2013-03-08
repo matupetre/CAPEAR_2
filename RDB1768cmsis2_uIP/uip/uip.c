@@ -78,6 +78,10 @@
  * checksums, and fill in the necessary header fields and finally send
  * the packet back to the peer.
 */
+// by CAPEAR:
+#include "capear_definiciones.h"	//by CAPEAR (para referirme a los puertos propios)
+#include "LPC17xx.h"				//by CAPEAR (para referirme al LPC_GPIO0)
+extern int pong_flag;				//by CAPEAR (variable superglobal)
 
 #include "uip.h"
 #include "uipopt.h"
@@ -335,6 +339,35 @@ uip_ipchksum(void)
   return (sum == 0) ? 0xffff : htons(sum);
 }
 #endif
+/*---------------------------------------------------------------------------*/
+
+//by CAPEAR: Funcion propia para obtener el checksum del ICMP
+u16_t
+uip_ICMPchksum(u16_t tamano_total_datagrama)
+{
+  u16_t sum;
+
+  sum = chksum(0, &uip_buf[UIP_LLH_LEN+UIP_IPH_LEN], tamano_total_datagrama - UIP_IPH_LEN);
+  /*expli: 	el 1er arg es 0 no se xq ni me importa por el momento
+   * 		el 2do arg es el offset donde empieza a tomarse el cacho a checksumear.
+   * 			en este caso uip_buf es un frame completo de ethernet. Como a nosotros
+   * 			solo nos interesa el ICMP, primero comenzamos por descartar la parte de
+   * 			ethernet y nos vamos a UIP_LLH_LEN que es donde empieza el datagrama IP,
+   * 			Pero aqui necesitamos solo el ICMP, por lo que descartamos el ecabezado
+   * 			del datagrama IP (20 bytes==UIP_IPH_LEN) y recien ahora llegamos a donde
+   * 			comienza el paquete ICMP. Este es el offset, Mision cumplida!
+   * 		el 3er arg es el tamaño total del cacho a checksumear, al mismo lo obtenemos
+   * 			tomando el tamaño total del datagrama (dije datagrama, o sea el paquete
+   * 			IP, esto no cuenta la parte de Ethernet) y restándole el encabezado del
+   * 			mismo. Con esto obtenemos el tamaño de los DATOS del datagrama que no es
+   * 			otra cosa que el paquete ICMP total encapsulado en el mismo.
+   */
+
+  DEBUG_PRINTF("uip_ICMPchksum: sum 0x%04x\n", sum);
+  return (sum == 0) ? 0xffff : htons(sum);
+}
+//by CAPEAR: *********END***************
+
 /*---------------------------------------------------------------------------*/
 static u16_t
 upper_layer_chksum(u8_t proto)
@@ -971,18 +1004,41 @@ uip_process(u8_t flag)
 
 #if !UIP_CONF_IPV6
   /* ICMPv4 processing code follows. */
-  if(BUF->proto != UIP_PROTO_ICMP) { /* We only allow ICMP packets from
-					here. */
+
+  //basicamente esto manda a la mierda cualquier paquete que no sea ICMP.
+  //Don't worry, los TCP & UDP fueron atrapados más arriba, ahora solo
+  //resta que este paquete, si llegó aquí, sea un ICMP, ya que de otro
+  //modo se mata (no se contempla otro tipo de paquete)
+  if(BUF->proto != UIP_PROTO_ICMP) {		//ICMP de cualquier tipo
     UIP_STAT(++uip_stat.ip.drop);
     UIP_STAT(++uip_stat.ip.protoerr);
     UIP_LOG("ip: neither tcp nor icmp.");
     goto drop;
   }
 
+
+
 #if UIP_PINGADDRCONF
  icmp_input:
 #endif /* UIP_PINGADDRCONF */
   UIP_STAT(++uip_stat.icmp.recv);
+
+//by CAPEAR:  aqui contemplo una respuesta a mi PING emitido
+  if(ICMPBUF->type == ICMP_ECHO_REPLY) {
+	UIP_LOG("icmp respuesta a CAPEAR.");
+
+	/* Para comenzar se baja la bandera en señal de que
+	 * llegó una respuesta a nuestro ping emitido
+	 */
+	pong_flag = 0;
+	//se togglea el puerto 0 (LED2 por ahora) para indicar que
+	//se recibio una respuesta a nuestro PING enviado.
+	PRT0_PIO->FIOMASK = 0;
+	PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);	//LED2_TOGGLE
+    //PRT0_PIO->FIOPIN0 = (0 << PRT0_pin);	//APAGO
+	goto drop;
+  }
+//by CAPEAR:  ******END*****
 
   /* ICMP echo (i.e., ping) processing. This is simple, we only change
      the ICMP type from ECHO to ECHO_REPLY and adjust the ICMP
@@ -1004,7 +1060,7 @@ uip_process(u8_t flag)
   }
 #endif /* UIP_PINGADDRCONF */
 
-  ICMPBUF->type = ICMP_ECHO_REPLY;
+  ICMPBUF->type = ICMP_ECHO_REPLY;	//AQUI SE PREPARA EL PING RESPUESTA
 
   if(ICMPBUF->icmpchksum >= HTONS(0xffff - (ICMP_ECHO << 8))) {
     ICMPBUF->icmpchksum += HTONS(ICMP_ECHO << 8) + 1;
@@ -1017,6 +1073,15 @@ uip_process(u8_t flag)
   uip_ipaddr_copy(BUF->srcipaddr, uip_hostaddr);
 
   UIP_STAT(++uip_stat.icmp.sent);
+
+ //by CAPEAR: se incluye un toggleo de LED2 para indicar que va a salir un ping
+	//se togglea el puerto 0 (LED2 por ahora) para indicar que
+	//se recibio una respuesta a nuestro PING enviado.
+	PRT0_PIO->FIOMASK = 0;
+	PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);
+	// ¡¡Confirmado que FUNCIONA!! :-)
+//by CAPEAR:   *****END*******
+
   goto send;
 
   /* End of IPv4 input header processing code. */

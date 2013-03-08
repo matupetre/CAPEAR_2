@@ -1,0 +1,22 @@
+
+Uso: ping [-t] [-a] [-n cuenta] [-l tama¤o] [-f] [-i TTL] [-v TOS]
+            [-r cuenta] [-s cuenta] [[-j lista-host] | [-k lista-host]]
+            [-w tiempo de espera] nombre-destino
+
+Opciones:
+  -t             Ping el host especificado hasta que se pare.
+                 Para ver estad¡sticas y continuar - presionar Control-Inter;
+                 Parar - presionar Control-C.
+  -a             Resolver direcciones en nombres de host.
+  -n cuenta      N£mero de peticiones eco para enviar.
+  -l tama¤o      Enviar tama¤o del b£fer.
+  -f             Establecer No fragmentar el indicador en paquetes.
+  -i TTL         Tiempo de vida.
+  -v TOS         Tipo de servicio.
+  -r cuenta      Ruta del registro para la cuenta de saltos.
+  -s count       Sello de hora para la cuenta de saltos.
+  -j lista-host  Afloja la ruta de origen a lo largo de la lista- host.
+  -k lista-host  Restringir la ruta de origen a lo largo de la lista- host.
+  -w tiempo de espera    Tiempo de espera en milisegundos para esperar cada
+                 respuesta.
+

@@ -377,6 +377,7 @@ uip_arp_out(void)
       uip_ipaddr_copy(ipaddr, IPBUF->destipaddr);
     }
       
+    //revisa todas las entradas de la tabla ARP, si encuentra coincidencia BREAKea del bucle
     for(i = 0; i < UIP_ARPTAB_SIZE; ++i) {
       tabptr = &arp_table[i];
       if(uip_ipaddr_cmp(ipaddr, tabptr->ipaddr)) {
@@ -415,7 +416,7 @@ uip_arp_out(void)
   
   IPBUF->ethhdr.type = HTONS(UIP_ETHTYPE_IP);
 
-  uip_len += sizeof(struct uip_eth_hdr);
+  uip_len += sizeof(struct uip_eth_hdr);	//suma el eth_header la long. del paq.IP
 }
 /*-----------------------------------------------------------------------------------*/
 

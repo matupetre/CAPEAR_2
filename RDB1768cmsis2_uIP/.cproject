@@ -31,6 +31,7 @@
 							<tool id="com.crt.advproject.cpp.exe.debug.610269868" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug"/>
 							<tool id="com.crt.advproject.gcc.exe.debug.1260499850" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug">
 								<option id="gnu.c.compiler.option.include.paths.233509869" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CAPEAR/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CMSISv2p00_LPC17xx/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/main&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/main/lpc1700&quot;"/>

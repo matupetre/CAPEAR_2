@@ -51,7 +51,7 @@ tapdev_read(void *pPacket)
 	return EMAC_ReadPacket(pPacket);
 }
 /*---------------------------------------------------------------------------*/
-void
+void	//esta funcion envia un paquete por el Ethernet
 tapdev_send(void *pPacket, unsigned int size)
 {
 	EMAC_SendPacket(pPacket, size);

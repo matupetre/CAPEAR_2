@@ -47,7 +47,12 @@
 #include "uip_arp.h"
 #include "tapdev.h"
 
-#include "capear_definiciones.h"	//by CAPEAR
+// by CAPEAR:
+#include "capear_definiciones.h"
+#include "capear_funciones.c"
+//#define ICMPBUF ((struct uip_icmpip_hdr *)&uip_buf[UIP_LLH_LEN])
+extern int pong_flag;	//by CAPEAR
+//by CAPEAR*********END*********************
 
 #define BUF ((struct uip_eth_hdr *)&uip_buf[0])
 
@@ -101,6 +106,7 @@ int main(void)
 	*/
 
 	struct timer periodic_timer, arp_timer;
+	struct timer ping_emitido_timer, el_led_dura_timer;
 
 	//Si se utiliza CMSIS la rutina SystemInit() es llamada en el codigo de inicio
 	//(cr_startup_lpc176x.c), caso contrario se la llama aqui
@@ -109,16 +115,25 @@ int main(void)
 		SystemInit(); //Setup de los "core clocks"
 	#endif
 
-	clock_init(); //Inicializacion del reloj
+	clock_init(); //Inicializacion del módulo de reloj
 
-	//Se utilizan dos timers
+	/* Se utilizan dos timers,
+	 * el 1ro para esperar un packete y...
+	 * el 2do para emitir un ARP	 */
 
-	timer_set(&periodic_timer, CLOCK_SECOND / 2); /* 0.5s */
-	timer_set(&arp_timer, CLOCK_SECOND * 10);	/* 10s */
+//	timer_set(&periodic_timer, CLOCK_SECOND / 2); 	/* 0.5s */
+	timer_set(&periodic_timer, CLOCK_SECOND * 10);	//by CAPEAR, very largo!! usado para debuggeo chei
+
+	timer_set(&arp_timer, CLOCK_SECOND * 10);		/* 10s */
+//	timer_set(&arp_timer, CLOCK_SECOND * 240);		//by CAPEAR: 60s *solo xa Debug!*
+
+	timer_set(&ping_emitido_timer, CLOCK_SECOND * 4);	//by CAPEAR: cada cuanto se emitirá mi ping propio /* 5s */
+
 	
 	//ethernet init
 
-	tapdev_init();
+	tapdev_init();  //esto inicia la interfaz Ethernet pero NO el webserver.
+					//hay comunicación de capa 2 only
 
 	//Initialize the uIP TCP/IP stack.
 
@@ -135,7 +150,7 @@ int main(void)
 
 	httpd_init();
 
-	while(1)
+	while(1)		//recien AQUI emitir mi PING de PRUEBA, antes no tiene sentido y se pierde
 		{
 		//receive packet and put in uip_buf
 		uip_len = tapdev_read(uip_buf);		//lee si el buffer recibió un frame
@@ -193,8 +208,15 @@ int main(void)
 	      					//firstconnection = 1;
 					//#endif
 
-	      			uip_arp_out();
-	        		tapdev_send(uip_buf,uip_len);
+	      			//aqui se buscca que ARP.dest corresponde a la ya sabida IP.dest
+	      			uip_arp_out();	//aqui se matchea IP.destino con MAC.destino
+	      			/*esta funcion afecta variables globales que dejan todo cocinado
+	      			 * como para ser enviado
+	      			 */
+
+
+	      			//aqui se remite el paquete saliente desde el web-server
+	      			tapdev_send(uip_buf,uip_len);	//aqui se remite el PING_ECHO
         			}
       			}
 
@@ -250,13 +272,52 @@ int main(void)
 
 			#endif //UIP_UDP
 
-			//Call the ARP timer function every 10 seconds.
+//			/*	by CAPEAR  (se puede anular el reset que sigue y simplifica algunas cosas
 
+			//Call the ARP timer function every 10 seconds.
 			if(timer_expired(&arp_timer))
 				{
 				timer_reset(&arp_timer);
 				uip_arp_timer();
+
+				//meter un PING aqui?? --> lo haremos en mi propio timer a ver qué onda
 				}
+//			 */
+
     		}
-		}
-	}
+
+    	//by CAPEAR: aqui meto mi timer y mi ping-emisor (lo llamo pong)
+		if(timer_expired(&ping_emitido_timer))
+			{
+			timer_reset(&ping_emitido_timer);
+
+			//uip_ip_addr_t pong_ip;	//defino variable para contener la IP en formato de uIP
+			//uip_ipaddr(pong_ip,IP1,IP2,IP3,IP4); //establezco la IP en formato uIP
+
+			//meter el PING emisor aqui
+			pong("192.168.0.3");	//emite un ping echo request
+									//la detección del echo reply se incorporo en uip.c
+
+			//envío efectivo del packete
+			if(uip_len > 0)
+				{
+				uip_arp_out();
+				tapdev_send(uip_buf,uip_len);	//emisión efectiva
+				pong_flag += 1;	//suma 1 a la bandera: se emitió un ping
+				if (pong_flag==3) {
+				//apaga_espera_enciende();
+				}
+
+				/*
+				PRT0_PIO->FIOMASK = 0;
+				PRT0_PIO->FIOPIN ^= (1 << PRT0_pin);	//LED2 SWAP
+			    PRT0_PIO->FIOPIN0 = (1 << PRT0_pin);	//ENCIENDO
+				for(i=1000000;i==0;--i);	//retardo para que haya tiempo de ver el led
+				*/
+				}
+			}
+
+    	//by CAPEAR:***************END******************
+
+		}	//cierra el while(1)
+	}		//cierra el main()

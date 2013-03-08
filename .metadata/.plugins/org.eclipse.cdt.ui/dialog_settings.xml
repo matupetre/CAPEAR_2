@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="completion_proposal_size">
+	</section>
+	<section name="PDOMSearchPage">
+		<item value="227191" key="searchFlags"/>
+		<item value="true" key="caseSensitive"/>
+		<list key="previousPatterns">
+			<item value="extern"/>
+			<item value="pong_flag"/>
+			<item value="uip_len"/>
+			<item value="UIP_LLH_LEN"/>
+			<item value="ICMP_ECHO"/>
+			<item value="ICMPBUF"/>
+			<item value="send:"/>
+			<item value="Lib_CMSIS2p0_and_Drivers"/>
+		</list>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+</section>

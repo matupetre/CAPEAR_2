@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;CAPEAR/src/capear_superglobales&apos; to &apos;capear_superglobales.h&apos;" description="Rename resource &apos;capear_superglobales&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/capear_superglobales" name="capear_superglobales.h" stamp="1362694042171" updateReferences="true"/>
+</session>

@@ -1,0 +1,3 @@
+Pato dice:
+
+tengo cableados todos los puertos de GPIO2 del 0 al 12 exceptuando el 9
