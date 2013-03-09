@@ -1327,3 +1327,45 @@ org.eclipse.cdt.debug.mi.core.cdi.MI2CDIException: Inferior terminated[]
 	at java.util.Observable.notifyObservers(Unknown Source)
 	at org.eclipse.cdt.debug.mi.core.MISession.notifyObservers(MISession.java:791)
 	at org.eclipse.cdt.debug.mi.core.EventThread.run(EventThread.java:46)
+!SESSION 2013-03-08 19:09:38.531 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=es_AR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY com.crt.log 1 0 2013-03-08 19:18:22.109
+!MESSAGE Drivers loaded in 2860 milliseconds
+
+!ENTRY com.crt.lite.brand 4 -1 2013-03-08 19:18:24.203
+!MESSAGE Internal error: cannot find image LPCXpresso_16x16
+
+!ENTRY org.eclipse.cdt.debug.mi.core 4 42 2013-03-08 19:19:41.453
+!MESSAGE Internal Error
+!STACK 0
+org.eclipse.cdt.debug.mi.core.cdi.MI2CDIException: No registers.[No registers.]
+	at org.eclipse.cdt.debug.mi.core.cdi.RegisterManager.update(RegisterManager.java:425)
+	at org.eclipse.cdt.debug.mi.core.cdi.EventManager.processSuspendedEvent(EventManager.java:314)
+	at org.eclipse.cdt.debug.mi.core.cdi.EventManager.update(EventManager.java:100)
+	at java.util.Observable.notifyObservers(Unknown Source)
+	at org.eclipse.cdt.debug.mi.core.MISession.notifyObservers(MISession.java:791)
+	at org.eclipse.cdt.debug.mi.core.EventThread.run(EventThread.java:46)
+
+!ENTRY com.crt.log 1 0 2013-03-08 19:24:58.687
+!MESSAGE Drivers loaded in 1828 milliseconds
+
+!ENTRY com.crt.debugmgr 4 0 2013-03-08 19:44:16.578
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.debugmgr 4 0 2013-03-08 19:44:16.578
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.debugmgr 4 0 2013-03-08 19:44:16.578
+!MESSAGE IO Error - cable disconnected?
+!SUBENTRY 1 com.crt.debugmgr 4 0 2013-03-08 19:44:16.578
+!MESSAGE Not connected to emulator.
+
+!ENTRY com.crt.debugmgr 4 0 2013-03-08 19:44:24.515
+!MESSAGE 15: Target error from Register access
+!SUBENTRY 1 com.crt.debugmgr 4 0 2013-03-08 19:44:24.515
+!MESSAGE 15: Target error from Register access
+!SUBENTRY 1 com.crt.debugmgr 4 0 2013-03-08 19:44:24.515
+!MESSAGE Cannot access core regs when target running.

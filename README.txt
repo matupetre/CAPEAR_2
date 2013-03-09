@@ -3,7 +3,13 @@ Materia:	Seminario de SISTEMAS EMBEBIDOS - 2C 2012
 Proyecto:	CAPEAR (Cortacorriente Automatico Para Equipamiento Autonomo de Red)
 
 
-Estado actual del proyecto (02/03/2013):
+Estado actual del proyecto (08/03/2013):
+
+NEW: Se puede PINGuear un host en forma sostenida y escuchar las respuestas; en caso que se acumulen 3 peticiones
+sin respuesta, el puerto correspondiente al host (actualmente PUERTO 4) se apaga durante unos instantes y luego
+se lo vuelve a encender. NOTA: "Unos instantes" son milesimas de segundo, ya que por el momento no se consigue
+introducir un delay, probablemente el pre-compilador lo anula en un intento por optimizar el código.
+
 
 Se puede: invertir el estado, asegurar encendido y asegurar apagado de 5 puertos:
 
@@ -29,11 +35,18 @@ Instrucciones para probar:
 ----------------------------------------------------------------------------------
 Queda pendiente:
 
+1.
 Los conseguido para los puertos anteriores no puede obtenerse con cualquier puerto GPIO arbitrario,
 tan solo con algunos (código ceteris-paribus). Se escogieron 4 puertos "adecuados" mediante prueba/error.
 
 *Posibles causas*: 
 -¿mal seteo de jumpers en el baseboard? --> Descartado, se probó y no se halló solución por esta vía.
+
+2.
+Habilitar el PING saliente para todos los puertos (actualmente sólo puerto 4)
+
+3.
+Recibir argumentos complejos desde la página web y ejecutar funciones que los tomen como tales.
 
 
 

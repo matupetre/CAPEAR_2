@@ -14,3 +14,6 @@ Filtro para ignorar packetes "BROWSER"
 
 El filtro perfecto: ignora packetes BROWSER & ARPs al default gateway
 	!((ip.dst == 192.168.0.255) && (eth.type!=ARP)) && !(arp.dst.proto_ipv4 == 192.168.0.100)
+
+El ultimo filtro usado para pruebas: sólo muestra los packetes ICMP y oculta todo lo demás
+	ip.proto == 1

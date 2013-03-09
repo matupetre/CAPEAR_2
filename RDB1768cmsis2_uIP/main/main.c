@@ -318,7 +318,7 @@ int main(void)
 
 						//Genero delay de 2 segundos
 						timer_reset(&desconexion_timer); 	//no funciona
-						while(!timer_expired(&desconexion_timer)) {;}
+						while(!timer_expired(&desconexion_timer));
 
 						//ENCIENDO PUERTO
 						PRT4_PIO->FIOMASK = 0;
