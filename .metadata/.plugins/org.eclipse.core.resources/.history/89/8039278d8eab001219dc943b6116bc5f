@@ -269,14 +269,14 @@ PT_THREAD(handle_input(struct httpd_state *s))
 
     /* by CAPEAR: 15/04/2013
 		Esta instrux q por ahora dejamos comentada, genera una
-		interceptaciÃ³n adicional para cachar los parÃ¡metros
+		interceptación adicional para cachar los parámetros 
 		enviados por el formulario GET. Por ahora es una caja
 		negra, pero ya se que es AQUI donde debo apropiarme
-		de los parÃ¡metros a enviar desde el formulario :) :)
+		de los parámetros a enviar desde el formulario :) :)
 		
     {
-        extern void vApplicationProcessFormInput( char *pcInputString ); 	//muestra la proto pero indica que se definiÃ³ en otro archivo
-        vApplicationProcessFormInput( s->inputbuf );						//invocaciÃ³n efectiva de la funciÃ³n
+        extern void vApplicationProcessFormInput( char *pcInputString ); //muestra la proto pero indica que se definió en otro archivo
+        vApplicationProcessFormInput( s->inputbuf );			//invocación efectiva de la función
 
 =========================en el archivo externo esta esto==================================
 
@@ -284,8 +284,8 @@ PT_THREAD(handle_input(struct httpd_state *s))
 	{
 		char *c;
 		// Process the form input sent by the IO page of the served HTML.
-    		if( (c = strstr(pcInputString,"?")) )	//strstr busca ocurrencias de "?" dentro de pcInputString, de hallarla devuelve un puntero a la posiciÃ³n del matcheo
-    			process_html_input(c);				//esta funciÃ³n se ocupa efectivamente de analizar el input y desglosar lo que alli se encuentre
+    		if( (c = strstr(pcInputString,"?")) )			//strstr busca ocurrencias de "?" dentro de pcInputString, de hallarla devuelve un puntero a la posición del matcheo
+    			process_html_input(c);				//esta función se ocupa efectivamente de analizar el input y desglosar lo que allí se encuentre
 	}
 ==========================================================================================
     }

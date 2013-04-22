@@ -3,9 +3,13 @@ Materia:	Seminario de SISTEMAS EMBEBIDOS - 2C 2012
 Proyecto:	CAPEAR (Cortacorriente Automatico Para Equipamiento Autonomo de Red)
 
 
-Estado actual del proyecto (08/03/2013):
+Estado actual del proyecto (22/04/2013):
 
-NEW: Se puede PINGuear un host en forma sostenida y escuchar las respuestas; en caso que se acumulen 3 peticiones
+NEW: Funcionalmente no cambio nada, pero se dejo marcado en el codigo el sitio donde se recibe y procesa 
+la URL del browser; si esta viniera acompañada por datos GET, se marco la posicion a intervenir en el code.
+
+
+Se puede PINGuear un host en forma sostenida y escuchar las respuestas; en caso que se acumulen 3 peticiones
 sin respuesta, el puerto correspondiente al host (actualmente PUERTO 4) se apaga durante unos instantes y luego
 se lo vuelve a encender. NOTA: "Unos instantes" son milesimas de segundo, ya que por el momento no se consigue
 introducir un delay, probablemente el pre-compilador lo anula en un intento por optimizar el código.

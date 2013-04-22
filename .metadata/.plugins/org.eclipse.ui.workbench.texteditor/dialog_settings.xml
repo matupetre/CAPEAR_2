@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="_timer" key="selection"/>
+		<item value="desconexion_timer" key="selection"/>
 		<list key="findhistory">
+			<item value="desconexion_timer"/>
+			<item value="ping_emitido_timer"/>
 			<item value="_timer"/>
 			<item value="fiopin0"/>
 			<item value="//by CAPEAR"/>
 			<item value="ICMP"/>
 			<item value="//BY CAPEAR"/>
 			<item value="by CAPEAR"/>
-			<item value="pong_flag"/>
-			<item value="capear_defi"/>
 		</list>
 		<list key="replacehistory">
 		</list>

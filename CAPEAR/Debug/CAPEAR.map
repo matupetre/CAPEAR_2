@@ -241,15 +241,15 @@ OUTPUT(CAPEAR.axf elf32-littlearm)
  .debug_line    0x00000a07      0x507 ./src/main.o
  .debug_line    0x00000f0e      0x47d E:\FAKU\Sistemas_Embebidos\WORKSPACES\CAPEAR_2\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
 
-.debug_macinfo  0x00000000    0x1b956
+.debug_macinfo  0x00000000    0x1b959
  .debug_macinfo
-                0x00000000     0x95bf ./src/capear_funciones.o
+                0x00000000     0x95c2 ./src/capear_funciones.o
  .debug_macinfo
-                0x000095bf     0x313f ./src/cr_startup_lpc176x.o
+                0x000095c2     0x313f ./src/cr_startup_lpc176x.o
  .debug_macinfo
-                0x0000c6fe     0x792d ./src/main.o
+                0x0000c701     0x792d ./src/main.o
  .debug_macinfo
-                0x0001402b     0x792b E:\FAKU\Sistemas_Embebidos\WORKSPACES\CAPEAR_2\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
+                0x0001402e     0x792b E:\FAKU\Sistemas_Embebidos\WORKSPACES\CAPEAR_2\CMSISv2p00_LPC17xx\Debug\libCMSISv2p00_LPC17xx.a(system_LPC17xx.o)
 
 .debug_loc      0x00000000      0x23c
  .debug_loc     0x00000000       0x38 ./src/capear_funciones.o

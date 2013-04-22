@@ -312,15 +312,52 @@ int main(void)
 						//bajo la bandera para evitar entradas infinitas a este sitio
 						pong_flag=0;
 
-						//APAGO PUERTO
+						//APAGO LED (PUERTO #0)
+						PRT0_PIO->FIOMASK = 0;
+						PRT0_PIO->FIOPIN = (0 << PRT0_pin);
+						//APAGO PUERTO #4
 						PRT4_PIO->FIOMASK = 0;
 						PRT4_PIO->FIOPIN = (0 << PRT4_pin);
 
 						//Genero delay de 2 segundos
-						timer_reset(&desconexion_timer); 	//no funciona
-						while(!timer_expired(&desconexion_timer));
+						/*  VOLATILE:  obliga a que el valor de la variable *siempre* sea buscado en memoria,
+						 *             ya que se asume que dicho valor puede ser cambiado por fuera del programa,
+						 *             de tal modo que "el programa" no puede tener certeza sobre cuánto vale la
+						 *             variable en un momento dado. Esto evita toda optimización de la variable.
+						 */
+						volatile unsigned int x;
+						//for(x=0; x<50000000; x++);
+						timer_restart(&desconexion_timer);	//uso restart y  no reset por explicacion del Colo
+						/*  timer_reset:	le suma una unidad de "delay" al instante en el que se determinó el timer_set
+						 * 					el cual se hace habitualmente al comenzar el código.
+						 * 					Supongamos que el delay establecido en el timer_set es de 2 segundos.
+						 * 					Supongamos que el timer_set se ejecuta en el segundo 0.
+						 * 					Supongamos que se llega al timer_reset en el segundo 7 (porque el
+						 * 					código se fue por otras ramas y no tuvo oportunidad de pasar por
+						 * 					un timer_reset antes del segundo 7). El timer_reset lo que hace es
+						 * 					sumar una unidad de delay al instante del timer_set. En nuestro caso
+						 * 					un timer_reset llevaría t_prueba a 2 (es decir 0 [timer_set] + 2 [delay])
+						 * 					Cuando pregunte timer_expired?, el mismo comparará t_actual = 7 con
+						 * 					t_prueba=2 y logicamente timer_expired sera inmediatamente afirmativo
+						 * 					porque 7 > 2. En otras palabras, no tendré un "delay" de 2 segundos
+						 * 					para alcanzar el timer_expired afirmativo sino que será afirmativo
+						 * 					inmediatamente. Lo curioso es que necesitaré otros 3 timer_reset,
+						 * 					que lleven el t_prueba a 2+2+2(+2 que ya tenía) = 8  para obtener al
+						 * 					menos un delay apreciable.
+						 *
+						 * 	timer_restart:	no le suma un delay al t_prueba sino que hace t_prueba = t_actual, de modo
+						 * 					que nos garantiza que tendremos delay porque se "olvida" del tiempo
+						 * 					transcurrido desde el timer_set.
+						 *
+						 */
+						while(!timer_expired(&desconexion_timer))
+							{ x++;	//al pedo, lo hice para debug nomáh.
+							}
 
-						//ENCIENDO PUERTO
+						//ENCIENDO LED (PUERTO #0)
+						PRT0_PIO->FIOMASK = 0;
+						PRT0_PIO->FIOPIN = (1 << PRT0_pin);
+						//ENCIENDO PUERTO #4
 						PRT4_PIO->FIOMASK = 0;
 						PRT4_PIO->FIOPIN = (1 << PRT4_pin);
 					}

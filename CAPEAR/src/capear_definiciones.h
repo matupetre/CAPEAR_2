@@ -33,17 +33,17 @@
 #define PRT0_PIO LPC_GPIO0	//puerto GPIO corrsp al Puerto0
 #define PRT0_pin 22			//pin correspndiente al Puerto0, es el del LED2 de LPCXpresso, para control de funcionamiento
 
-#define PRT1_PIO LPC_GPIO0	//puerto GPIO corrsp al Puerto1
-#define PRT1_pin 9			//pin correspndiente al Puerto1
+#define PRT1_PIO LPC_GPIO2	//puerto GPIO corrsp al Puerto1
+#define PRT1_pin 10			//pin correspndiente al Puerto1
 
 #define PRT2_PIO LPC_GPIO2	//puerto GPIO corrsp al Puerto2
-#define PRT2_pin 3			//pin correspndiente al Puerto2
+#define PRT2_pin 8			//pin correspndiente al Puerto2
 
 #define PRT3_PIO LPC_GPIO2	//puerto GPIO corrsp al Puerto3
-#define PRT3_pin 5			//pin correspndiente al Puerto3
+#define PRT3_pin 11			//pin correspndiente al Puerto3
 
 #define PRT4_PIO LPC_GPIO2	//puerto GPIO corrsp al Puerto4
-#define PRT4_pin 7			//pin correspndiente al Puerto4
+#define PRT4_pin 12			//pin correspndiente al Puerto4
 
 
 #define PRT0_BIT (1<<PRT0_pin) // Valor absoluto de la palabra si solo cuenta el pin de este puerto

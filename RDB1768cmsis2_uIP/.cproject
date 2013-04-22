@@ -51,7 +51,7 @@
 								<option id="gnu.c.compiler.option.preprocessor.nostdinc.1394281526" name="Do not search system directories (-nostdinc)" superClass="gnu.c.compiler.option.preprocessor.nostdinc"/>
 								<option id="gnu.c.compiler.option.preprocessor.preprocess.784092417" name="Preprocess only (-E)" superClass="gnu.c.compiler.option.preprocessor.preprocess"/>
 								<option id="gnu.c.compiler.option.preprocessor.undef.symbol.884241300" name="Undefined symbols (-U)" superClass="gnu.c.compiler.option.preprocessor.undef.symbol"/>
-								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.2120527743" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level"/>
+								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.2120527743" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" value="gnu.c.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.optimization.flags.344184656" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags"/>
 								<option id="com.crt.advproject.gcc.exe.debug.option.debugging.level.1968096457" name="Debug Level" superClass="com.crt.advproject.gcc.exe.debug.option.debugging.level"/>
 								<option id="gnu.c.compiler.option.debugging.other.1007181578" name="Other debugging flags" superClass="gnu.c.compiler.option.debugging.other"/>
@@ -61,7 +61,7 @@
 								<option id="gnu.c.compiler.option.warnings.pedantic.1802485571" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" value="false" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.error.81892739" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.c.compiler.option.warnings.pedantic.error"/>
 								<option id="gnu.c.compiler.option.warnings.nowarn.121002555" name="Inhibit all warnings (-w)" superClass="gnu.c.compiler.option.warnings.nowarn"/>
-								<option id="gnu.c.compiler.option.warnings.allwarn.1934052519" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.allwarn.1934052519" name="All warnings (-Wall)" superClass="gnu.c.compiler.option.warnings.allwarn" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.toerrors.1894565359" name="Warnings as errors (-Werror)" superClass="gnu.c.compiler.option.warnings.toerrors"/>
 								<option id="gnu.c.compiler.option.misc.verbose.154137866" name="Verbose (-v)" superClass="gnu.c.compiler.option.misc.verbose"/>
 								<option id="gnu.c.compiler.option.misc.ansi.256409194" name="Support ANSI programs (-ansi)" superClass="gnu.c.compiler.option.misc.ansi"/>
